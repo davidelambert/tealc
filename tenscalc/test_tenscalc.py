@@ -1,9 +1,12 @@
+from pathlib import Path
 from math import log
 import json
 import tenscalc
 
+PROJECT_ROOT = Path(__file__).parent.parent
+
 magic_number = 40
-with open('./testdata.json', 'r') as f:
+with open(PROJECT_ROOT/'tenscalc/data/testdata.json', 'r') as f:
     d = json.load(f)
 
 
@@ -21,8 +24,8 @@ def test_interval(material, pitch, gauge, target, alpha=0.1):
 
 def test_material(material, alpha=0.1):
     lst = []
-    for pitch in list(d[material]['pitches']):
-        for tup in d[material]['pitches'][pitch]:
+    for pitch in list(d[material]):
+        for tup in d[material][pitch]:
             gauge = tup[0]
             target = tup[1]
             passing, actual = test_interval(material, pitch, gauge,
@@ -34,10 +37,7 @@ def test_material(material, alpha=0.1):
                        'actual': actual,
                        'diff': log(actual)-log(target)}
                 lst.append(err)
-    report = {'material': material,
-              'name': d[material]['name'],
-              'alpha': alpha,
-              'errors': lst}
+    report = {'material': material, 'alpha': alpha, 'errors': lst}
     return(report)
 
 
@@ -67,7 +67,7 @@ def print_failures(report):
 
 
 for mat in list(d):
-    header = f" {d[mat]['name'].upper()} ({mat}) "
+    header = ' ' + mat.upper() + ' '
     print('\n\n', header.center(magic_number, '='), sep='')
     for a in [0.1, 0.05]:
         rpt = test_material(material=mat, alpha=a)
