@@ -27,23 +27,27 @@ def test_material(material, alpha=0.1):
             passing, actual = test_interval(material, pitch, gauge,
                                             target, alpha)
             if not passing:
-                err = {'material': material,
-                       'gauge': gauge/1000,
+                err = {'gauge': gauge/1000,
                        'pitch': pitch,
                        'target': target,
                        'actual': actual,
                        'diff': log(actual)-log(target)}
                 lst.append(err)
-    return(lst)
+    report = {'material': material,
+              'name': d[material]['name'],
+              'alpha': alpha,
+              'errors': lst}
+    return(report)
 
 
-def print_failures(lst, title=''):
+def print_failures(report):
+    errlist = report['errors']
+    title = f" {report['name']}: {int(report['alpha'] * 100)}% TEST FAILURES "
     cw = 8
     tw = 5 * cw
     print('')
-    print('=' * tw)
-    print(title.upper().center(tw))
-    print('=' * tw)
+    print(title.upper().center(tw, '='))
+    print('-' * tw)
     print('Gauge'.ljust(cw),
           'Pitch'.ljust(cw),
           'Target'.ljust(cw),
@@ -52,28 +56,25 @@ def print_failures(lst, title=''):
           sep='')
     print('-' * tw)
 
-    if len(lst) == 0:
-        print('NO ERRORS!'.center(tw))
-    else:
-        for err in lst:
-            print('{:6.4f}'.format(err['gauge']).ljust(cw),
-                  '{}'.format(err['pitch'].upper()).ljust(cw),
-                  '{}'.format(err['target']).ljust(cw),
-                  '{:5.2f}'.format(err['actual']).ljust(cw),
-                  '{:+.2%}'.format(err['diff']).ljust(cw),
-                  sep='')
+    for err in errlist:
+        print('{:6.4f}'.format(err['gauge']).ljust(cw),
+              '{}'.format(err['pitch'].upper()).ljust(cw),
+              '{}'.format(err['target']).ljust(cw),
+              '{:5.2f}'.format(err['actual']).ljust(cw),
+              '{:+.2%}'.format(err['diff']).ljust(cw),
+              sep='')
 
     print('-' * tw)
 
 
 fail10 = test_material('ps', alpha=0.1)
 try:
-    assert len(fail10) == 0
+    assert len(fail10['errors']) == 0
 except AssertionError:
-    print_failures(fail10, 'failing 10% test')
+    print_failures(fail10)
 
 fail05 = test_material('ps', alpha=0.05)
 try:
-    assert len(fail05) == 0
+    assert len(fail05['errors']) == 0
 except AssertionError:
-    print_failures(fail05, 'failing 5% test')
+    print_failures(fail05)
