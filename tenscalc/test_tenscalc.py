@@ -2,6 +2,7 @@ from math import log
 import json
 import tenscalc
 
+magic_number = 40
 with open('./testdata.json', 'r') as f:
     d = json.load(f)
 
@@ -42,11 +43,11 @@ def test_material(material, alpha=0.1):
 
 def print_failures(report):
     errlist = report['errors']
-    title = f" {report['name']}: {int(report['alpha'] * 100)}% TEST FAILURES "
-    cw = 8
-    tw = 5 * cw
-    print('')
-    print(title.upper().center(tw, '='))
+    title = f"{int(report['alpha'] * 100)}% TEST FAILURES"
+    tw = magic_number
+    cw = magic_number // 5
+    print('-' * tw)
+    print(title.center(tw))
     print('-' * tw)
     print('Gauge'.ljust(cw),
           'Pitch'.ljust(cw),
@@ -64,17 +65,13 @@ def print_failures(report):
               '{:+.2%}'.format(err['diff']).ljust(cw),
               sep='')
 
-    print('-' * tw)
 
-
-fail10 = test_material('ps', alpha=0.1)
-try:
-    assert len(fail10['errors']) == 0
-except AssertionError:
-    print_failures(fail10)
-
-fail05 = test_material('ps', alpha=0.05)
-try:
-    assert len(fail05['errors']) == 0
-except AssertionError:
-    print_failures(fail05)
+for mat in list(d):
+    header = f" {d[mat]['name'].upper()} ({mat}) "
+    print('\n\n', header.center(magic_number, '='), sep='')
+    for a in [0.1, 0.05]:
+        rpt = test_material(material=mat, alpha=a)
+        try:
+            assert len(rpt['errors']) == 0
+        except AssertionError:
+            print_failures(rpt)
