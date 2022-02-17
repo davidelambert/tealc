@@ -1,7 +1,7 @@
 from pathlib import Path
 from math import log
 import json
-import tenscalc
+import common
 
 PROJECT_ROOT = Path(__file__).parent.parent
 
@@ -11,8 +11,8 @@ with open(PROJECT_ROOT/'tenscalc/data/testdata.json', 'r') as f:
 
 
 def test_interval(material, pitch, gauge, target, alpha=0.1):
-    uw = tenscalc.get_uw(gauge, material)
-    tens = tenscalc.tension(uw, pitch)
+    uw = common.get_uw(gauge, material)
+    tens = common.tension(uw, pitch, scale_length=25.5)
     moe = (tens - alpha*tens, tens + alpha*tens)
     if moe[0] <= target <= moe[1]:
         passing = True
