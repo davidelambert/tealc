@@ -1,5 +1,5 @@
 import argparse
-from . import tenscalc
+from . import common
 
 parser = argparse.ArgumentParser(prog='tenscalc',
                                  description='Stringed instrument tension calculator')
@@ -11,7 +11,6 @@ parser.add_argument('-s', '--scale_length', type=float, default=25.5)
 
 args = parser.parse_args()
 
-uw = tenscalc.get_uw(args.gauge, args.material)
-lbs = tenscalc.tension(uw, args.pitch, args.scale_length)
+uw = common.get_uw(args.gauge, args.material)
+lbs = common.tension(uw, args.pitch, args.scale_length)
 print('{:.2f} lbs'.format(lbs))
-

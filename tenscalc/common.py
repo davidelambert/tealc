@@ -19,8 +19,7 @@ def get_uw(gauge, material):
     return uw
 
 
-def tension(unit_weight, pitch, scale_length=25.5):
+def tension(unit_weight, pitch, scale_length):
     hz = freq[pitch.upper()]
     lbs = (unit_weight * (2 * hz * scale_length) ** 2) / 386.4
     return lbs
-
