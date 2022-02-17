@@ -1,4 +1,0 @@
-#tenscalc String Material Models
-
-tenscalc estimates string tension for a given material based on published tension guides from one of the largest string manufacturers in the US. I chose the manufacturer was based on 1) the depth of tension guides available for different materials and gauges and 2) upon what I suspect is greater accuracy than another manufacturer's tension guides. A Jupyter notebook of my full analysis of these two large manufacturers is available at `src/tenscalc_modelling.ipynb`. The models of string materials from "Manufacturer D" appear suspiciously linear to me, almost as if the published mass figures underlying the models are based on calculations rather than direct measurements. The mass data from "Manufacturer G" is noisier, appearing more like real-world measures, while still producing estimates with very high goodness-of-fit measures, comparable to those of Manufacturer D.
-
