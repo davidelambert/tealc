@@ -1,5 +1,5 @@
 import argparse
-from . import common
+from .common import get_uw, tension
 
 parser = argparse.ArgumentParser(prog='tenscalc')
 
@@ -15,8 +15,8 @@ if args.si:
     args.gauge = round(args.gauge / 25.4, 3)
     args.length = args.length / 25.4
 
-uw = common.get_uw(args.gauge, args.material)
-lbs = common.tension(uw, args.pitch, args.length)
+uw = get_uw(args.gauge, args.material)
+lbs = tension(uw, args.pitch, args.length)
 
 if args.si:
     print('{:.2f} kg'.format(lbs / 2.205))
