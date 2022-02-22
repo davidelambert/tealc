@@ -51,8 +51,12 @@ def get_uw(gauge, material):
     return unit_weight
 
 
-def tension(gauge: float, material: str, pitch: str, scale_length: float):
-    if gauge >= 1.0:
+def tension(gauge: float, material: str, pitch: str, scale_length: float, si=False):
+    if si:
+        gauge = round(gauge / 25.4, 3)
+        scale_length = scale_length / 25.4
+
+    if not si and gauge >= 1.0:
         gauge = gauge / 1000
 
     validate_material(material)
@@ -62,4 +66,12 @@ def tension(gauge: float, material: str, pitch: str, scale_length: float):
     hz = freq[pitch]
 
     lbs = (unit_weight * (2 * hz * scale_length) ** 2) / 386.4
-    return lbs
+
+    if si:
+        value = lbs / 2.205
+        unit = 'kg'
+    else:
+        value = lbs
+        unit = 'lbs'
+
+    return value, unit
