@@ -1,7 +1,7 @@
 import argparse
 import sys
 import json
-from .common import get_uw, tension
+from .common import tension
 
 parser = argparse.ArgumentParser(prog='tenscalc')
 
@@ -41,8 +41,7 @@ if args.si:
     args.length = args.length / 25.4
 
 # CALCULATE & PRINT RESULTS ==============================
-uw = get_uw(args.gauge, args.material)
-lbs = tension(uw, args.pitch, args.length)
+lbs = tension(args.gauge, args.material, args.pitch, args.length)
 
 if args.si:
     print('{:.2f} kg'.format(lbs / 2.205))
