@@ -1,19 +1,16 @@
 import json
-from pathlib import Path
 import sys
 
-PROJECT_ROOT = Path(__file__).parent.parent
-
-with open(PROJECT_ROOT/'tenscalc/data/unit_weights.json', 'r') as f:
+with open('./tenscalc/data/unit_weights.json', 'r') as f:
     data = json.load(f)
 
-with open(PROJECT_ROOT/'tenscalc/data/frequency_chart.json', 'r') as f:
+with open('./tenscalc/data/frequency_chart.json', 'r') as f:
     freq = json.load(f)
 
-with open(PROJECT_ROOT/'tenscalc/data/tension_coefs.json', 'r') as f:
+with open('./tenscalc/data/tension_coefs.json', 'r') as f:
     coefs = json.load(f)
 
-with open(PROJECT_ROOT/'tenscalc/data/material_codes.json', 'r') as f:
+with open('./tenscalc/data/material_codes.json', 'r') as f:
     mat_codes = json.load(f)
 
 
