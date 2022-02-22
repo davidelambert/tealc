@@ -1,7 +1,6 @@
 import argparse
 import sys
 import json
-import re
 from .common import get_uw, tension
 
 parser = argparse.ArgumentParser(prog='tenscalc')
@@ -26,10 +25,22 @@ if args.material not in list(material_codes):
         print(k.rjust(6), v, sep='  ')
     sys.exit()
 
+# PITCH VALIDATION =======================================
+with open('./tenscalc/data/frequency_chart.json', 'r') as f:
+    frequency_chart = json.load(f)
+
+if args.pitch not in list(frequency_chart):
+    print('\n ERROR: pitch must be in scientific pitch notation, from A0-E5,')
+    print('  with uppercase note letter.')
+    print('See help [-h, --help] for examples and common open string pitches')
+    sys.exit()
+
+# SI CONVERSION ==========================================
 if args.si:
     args.gauge = round(args.gauge / 25.4, 3)
     args.length = args.length / 25.4
 
+# CALCULATE & PRINT RESULTS ==============================
 uw = get_uw(args.gauge, args.material)
 lbs = tension(uw, args.pitch, args.length)
 
