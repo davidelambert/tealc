@@ -11,8 +11,12 @@ parser.add_argument('--si', action='store_true')
 
 args = parser.parse_args()
 
-# CALCULATE & PRINT RESULTS ==============================
-value, unit = tension(args.gauge, args.material, args.pitch,
-                      args.length, args.si)
 
-print('{:.2f} {}'.format(value, unit))
+value = tension(args.gauge, args.material, args.pitch,
+                args.length, args.si)
+if args.si:
+    units = 'kg'
+else:
+    units = 'lbs'
+
+print('{:.2f} {}'.format(value, units))
