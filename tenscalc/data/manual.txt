@@ -1,0 +1,40 @@
+tensc
+
+usage: tenscalc string [--si] <gauge> <material> <pitch> <length>
+
+tenscalc string
+===============
+    REQUIRED (positional):
+        gauge       String gauge in inches, or in mm with the --si flag.
+                    Inch gauges may optionally be in thousandths:
+                    "11" or ".011" are both valid and produce the same return.
+
+        material    Code for string construction material.
+                    Options:
+                        code  material
+                        ----  --------
+                          ps  plain steel
+                         nps  nickel-plated steel wound
+                          pb  phosphor bronze wound
+                        8020  80/20 bronze wound
+                        8515  85/15 bronze wound
+                          ss  stainless steel roundwound
+                          fw  stainless steel flatwound
+                          pn  pure nickel wound
+
+        pitch       Tuned pitch of string in scientific pitch notation, from A0-E5.
+                    Examples of open-string pitches in standard tunings:
+                        Guitar: E2, A2, D3, G3, B3, E4
+                        Bass: (B0), E1, A1, D2, G2
+                        Mandolin: G3, D4, A4, E5
+                        Banjo: G4, D3, G3, B3, D4
+
+        length      Scale length of instrument in inches, or in mm with the --si flag.
+
+    OPTIONAL:
+        --si        <gauge> and <length> are interpreted as millimenters.
+                    Tension is returned in kilograms.
+
+    Examples:
+        tenscalc string .011 ps E4 25.5
+        tenscalc string --si 1.37 pb E2 632.5
