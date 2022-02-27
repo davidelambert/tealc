@@ -1,5 +1,5 @@
 import argparse
-from common import tension
+from tenscalc import tension
 
 with open('./tenscalc/data/manual.txt', 'r') as f:
     manual = f.read()
