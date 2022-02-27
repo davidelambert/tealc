@@ -1,50 +1,51 @@
 import argparse
-import sys
-import json
-from .common import get_uw, tension
+from tenscalc import tension
+
+with open('./tenscalc/data/manual.txt', 'r') as f:
+    manual = f.read()
 
 parser = argparse.ArgumentParser(prog='tenscalc')
+subparsers = parser.add_subparsers(dest='command')
 
-parser.add_argument('gauge', type=float)
-parser.add_argument('material')
-parser.add_argument('pitch')
-parser.add_argument('length', nargs='?', type=float, default=25.5)
-parser.add_argument('--si', action='store_true')
+string_parser = subparsers.add_parser('string',
+                                      help='calculate tension for a single string',
+                                      usage='tenscalc string [-h] [--si] <gauge> <material> <pitch> <length>')
+string_parser.add_argument('gauge', type=float,
+                           help='inches, 1/1000 of an inch, or mm with --si flag')
+string_parser.add_argument('material', metavar='material',
+                           choices=['ps', 'nps', 'pb', '8020', '8515', 'ss', 'fw', 'pn'],
+                           help='options: ps, nps, pb, 8020, 8515, ss, fw, pn')
+string_parser.add_argument('pitch',
+                           help='e.g. A1, Bb2, C#3. C4 is middle C')
+string_parser.add_argument('length', type=float,
+                           help='scale length in inches, or mm with --si flag')
+string_parser.add_argument('--si', action='store_true',
+                           help='<gauge> and <length> in mm; return tension in kg')
+
+# TODO: set syntax
+# set_parser = subparsers.add_parser('set', help='calculate tension for a set of strings')
+# set_parser.add_argument('file', help='see `tenscalc help` for formatting')
+
+help_parser = subparsers.add_parser('help', help='print long help', add_help=False)
 
 args = parser.parse_args()
 
-# MATERIAL CODE VALIDATION ================================
-with open('./tenscalc/data/material_codes.json', 'r') as f:
-    material_codes = json.load(f)
 
-if args.material not in list(material_codes):
-    print('\nERROR: material must be one of the following codes')
-    print('Code'.rjust(6), 'String material', sep='  ')
-    print('----'.rjust(6), '---------------', sep='  ')
-    for k, v in material_codes.items():
-        print(k.rjust(6), v, sep='  ')
-    sys.exit()
+if args.command == 'string':
+    value = tension(args.gauge, args.material, args.pitch,
+                    args.length, args.si)
+    if args.si:
+        units = 'kg'
+    else:
+        units = 'lbs'
+    print('{:.2f} {}'.format(value, units))
 
-# PITCH VALIDATION =======================================
-with open('./tenscalc/data/frequency_chart.json', 'r') as f:
-    frequency_chart = json.load(f)
+# TODO: set logic
+# elif args.command == 'set':
+#     pass
 
-if args.pitch not in list(frequency_chart):
-    print('\n ERROR: pitch must be in scientific pitch notation, from A0-E5,')
-    print('  with uppercase note letter.')
-    print('See help [-h, --help] for examples and common open string pitches')
-    sys.exit()
+elif args.command == 'help':
+    print(manual)
 
-# SI CONVERSION ==========================================
-if args.si:
-    args.gauge = round(args.gauge / 25.4, 3)
-    args.length = args.length / 25.4
-
-# CALCULATE & PRINT RESULTS ==============================
-uw = get_uw(args.gauge, args.material)
-lbs = tension(uw, args.pitch, args.length)
-
-if args.si:
-    print('{:.2f} kg'.format(lbs / 2.205))
 else:
-    print('{:.2f} lbs'.format(lbs))
+    parser.print_help()

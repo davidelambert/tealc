@@ -12,7 +12,7 @@ with open(PROJECT_ROOT/'tenscalc/data/testdata.json', 'r') as f:
 
 def test_interval(material, pitch, gauge, target, alpha=0.1):
     uw = common.get_uw(gauge, material)
-    tens = common.tension(uw, pitch, scale_length=25.5)
+    tens = common.tension(uw, pitch, length=25.5)
     moe = (tens - alpha*tens, tens + alpha*tens)
     if moe[0] <= target <= moe[1]:
         passing = True
