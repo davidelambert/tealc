@@ -1,0 +1,5 @@
+[set]
+length = 25.5
+materials = ps ps 8020 8020 8020 8020
+gauges = 11 14 22 30 38 50
+pitches = e4 b3 g3 d3 a2 e2
