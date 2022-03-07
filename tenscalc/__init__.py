@@ -22,6 +22,5 @@ from tenscalc.tenscalc import (StringTension,
                                StringSet,
                                SetFileParser,
                                print_material_codes)
-from tenscalc.cli import main, print_manual
 
 __version__ = '0.1.0'
