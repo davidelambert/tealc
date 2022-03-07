@@ -19,11 +19,14 @@ Code in this module is run when tenscalc is tun from the command line.
     via the command line with ``tenscalc help``.
 """
 
+from pathlib import Path
 import os
 import subprocess
 import argparse
 
 from tenscalc import StringTension, StringSet, SetFileParser
+
+PKG_DIR = Path(__file__).parent
 
 msg = {
     'string': 'calculate tension for a single string',
@@ -73,11 +76,11 @@ def print_manual():
     """Print the manual with less (or more on Windows)."""
     if os.name == 'posix':
         prompt = '-Pstenscalc help line %lt/%L (press h for help or q to quit)'
-        subprocess.run(['less', prompt, '--', './tenscalc/data/manual.txt'])
+        subprocess.run(['less', prompt, '--', PKG_DIR/'manual.txt'])
     elif os.name == 'nt':
-        subprocess.run(['more', './tenscalc/data/manual.txt'])
+        subprocess.run(['more', PKG_DIR/'manual.txt'])
     else:
-        print('./tenscalc/data/manual.txt')
+        print(PKG_DIR/'manual.txt')
 
 
 def main(args: list[str] = None):

@@ -41,23 +41,26 @@ Attributes:
         to tenscalc available from __main__.py.
 """
 
+from pathlib import Path
 import json
 import configparser
 import copy
 
-with open('./tenscalc/data/unit_weights.json', 'r') as f:
+PKG_DIR = Path(__file__).parent
+
+with open(PKG_DIR/'unit_weights.json', 'r') as f:
     unit_weights = json.load(f)
 
-with open('./tenscalc/data/tension_coefs.json', 'r') as f:
+with open(PKG_DIR/'tension_coefs.json', 'r') as f:
     tension_coefs = json.load(f)
 
-with open('./tenscalc/data/frequency_chart.json', 'r') as f:
+with open(PKG_DIR/'frequency_chart.json', 'r') as f:
     frequency_chart = json.load(f)
 
-with open('./tenscalc/data/material_codes.json', 'r') as f:
+with open(PKG_DIR/'material_codes.json', 'r') as f:
     material_codes = json.load(f)
 
-with open('./tenscalc/data/manual.txt', 'r') as f:
+with open(PKG_DIR/'manual.txt', 'r') as f:
     manual = f.read()
 
 _err_msg = {

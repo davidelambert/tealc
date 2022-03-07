@@ -1,5 +1,5 @@
 NAME
-    tenscalc - estimate tensions for stringed instruments
+    tenscalc - tension estimator for stringed instruments
 
 SYNOPSIS
     tenscalc string [--si] gauge material pitch length
