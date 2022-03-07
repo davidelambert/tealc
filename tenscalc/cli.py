@@ -27,6 +27,8 @@ import argparse
 from tenscalc import StringTension, StringSet, SetFileParser
 
 PKG_DIR = Path(__file__).parent
+with open(PKG_DIR/'manual.txt', 'r') as _m:
+    manual = _m.read()
 
 msg = {
     'string': 'calculate tension for a single string',
@@ -77,10 +79,8 @@ def print_manual():
     if os.name == 'posix':
         prompt = '-Pstenscalc help line %lt/%L (press h for help or q to quit)'
         subprocess.run(['less', prompt, '--', PKG_DIR/'manual.txt'])
-    elif os.name == 'nt':
-        subprocess.run(['more', PKG_DIR/'manual.txt'])
     else:
-        print(PKG_DIR/'manual.txt')
+        print(manual)
 
 
 def main(args: list[str] = None):
