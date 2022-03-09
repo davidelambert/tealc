@@ -20,8 +20,7 @@ Code in this module is run when tenscalc is tun from the command line.
 """
 
 from pathlib import Path
-import os
-import subprocess
+import pydoc
 import argparse
 
 from tenscalc import StringTension, StringSet, SetFileParser
@@ -75,12 +74,8 @@ help_parser = subparsers.add_parser('help', help='print manual',
 
 
 def print_manual():
-    """Print the manual with less (or more on Windows)."""
-    if os.name == 'posix':
-        prompt = '-Pstenscalc help line %lt/%L (press h for help or q to quit)'
-        subprocess.run(['less', prompt, '--', PKG_DIR/'manual.txt'])
-    else:
-        print(manual)
+    """Print manual to platform-appropriate terminal pager."""
+    pydoc.pager(manual)
 
 
 def main(args: list[str] = None):
