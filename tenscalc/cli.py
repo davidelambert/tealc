@@ -77,7 +77,7 @@ def print_manual():
     """Print the manual.
 
     On POSIX, open the man page. On Windows, open plain text manual
-    with -more-. Otherwise, print plai text manual to console.
+    with -more-. Otherwise, print plain text manual to console.
     """
     if os.name == 'posix':
         os.system('man', '-l' + str(PKG_DIR/'manual.1'))
