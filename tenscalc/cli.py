@@ -19,15 +19,15 @@ Code in this module is run when tenscalc is tun from the command line.
     via the command line with ``tenscalc help``.
 """
 
+import os
+import sys
 from pathlib import Path
-import pydoc
 import argparse
 
 from tenscalc import StringTension, StringSet, SetFileParser
 
 PKG_DIR = Path(__file__).parent
-with open(PKG_DIR/'manual.txt', 'r') as _m:
-    manual = _m.read()
+
 
 msg = {
     'string': 'calculate tension for a single string',
@@ -74,8 +74,19 @@ help_parser = subparsers.add_parser('help', help='print manual',
 
 
 def print_manual():
-    """Print manual to platform-appropriate terminal pager."""
-    pydoc.pager(manual)
+    """Print the manual.
+
+    On POSIX, open the man page. On Windows, open plain text manual
+    with -more-. Otherwise, print plai text manual to console.
+    """
+    if os.name == 'posix':
+        os.system('man', '-l' + str(PKG_DIR/'manual.1'))
+    elif sys.platform == 'win32':
+        os.system('more < "' + str(PKG_DIR/'manual.txt') + '"')
+    else:
+        with open(PKG_DIR/'manual.txt', 'r') as m:
+            manual = m.read()
+            print(manual)
 
 
 def main(args: list[str] = None):
