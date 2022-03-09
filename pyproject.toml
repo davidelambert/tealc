@@ -1,8 +1,10 @@
 [build-system]
-requires = ["setuptools>=43.0.0", "wheel"]
-build_backend = "setuptools.build_meta"
+requires=["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+build-backend="setuptools.build_meta"
+
+[tool.setuptools_scm]
 
 [tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra -q"
-testpaths = ["tests",]
+minversion="6.0"
+addopts="-ra -q"
+testpaths=["tests"]
