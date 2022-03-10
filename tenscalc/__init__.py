@@ -23,4 +23,4 @@ from tenscalc.tenscalc import (StringTension,
                                SetFileParser,
                                print_material_codes)
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'

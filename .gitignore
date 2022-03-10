@@ -1,6 +1,8 @@
 .vscode/
 *__pycache__/
 .python-version
-*.egg-info
 ref/
 stash/
+
+*.egg-info/
+dist/

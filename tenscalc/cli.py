@@ -80,7 +80,7 @@ def print_manual():
     with -more-. Otherwise, print plain text manual to console.
     """
     if os.name == 'posix':
-        os.system('man', '-l' + str(PKG_DIR/'manual.1'))
+        os.system('man -l ' + str(PKG_DIR/'manual.1'))
     elif sys.platform == 'win32':
         os.system('more < "' + str(PKG_DIR/'manual.txt') + '"')
     else:
