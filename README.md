@@ -56,6 +56,7 @@ Estimate tension for a single string.
   <dt>material</dt>
   <dd>
   Short code for string construction material. Options:
+    
   | code | material |
   | ---: | :------- |
   | ps | plain steel |
