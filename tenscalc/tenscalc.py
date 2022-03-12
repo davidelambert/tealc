@@ -200,8 +200,8 @@ class StringSet:
             of differing length.
     """
 
-    def __init__(self, length: float, gauges: list[float],
-                 materials: list[str], pitches: list[str],
+    def __init__(self, length: float, gauges: list,
+                 materials: list, pitches: list,
                  double=False, si=False):
         """Class constructor."""
         try:
