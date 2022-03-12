@@ -93,8 +93,8 @@ def main(args: list[str] = None):
     """Command line interface for tenscalc.
 
     Args:
-        args (list[str], optional): Argument list. The default of ``None``
-        will read sys.argv
+        args (list[str], optional): Argument list. The default of
+            ``None`` will read sys.argv
     """
     parsed_args = parser.parse_args(args)
 
