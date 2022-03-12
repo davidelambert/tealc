@@ -75,7 +75,7 @@ _err_msg = {
 
 
 def print_material_codes(padding=0):
-    """Print valid string material codes and corresponding descriptions."""
+    """Print valid string material codes and descriptions."""
     just = 4 + padding
     print('code'.rjust(just), 'material', sep='  ',)
     print('----'.rjust(just), '--------', sep='  ')
@@ -200,8 +200,8 @@ class StringSet:
             of differing length.
     """
 
-    def __init__(self, length: float, gauges: list[float],
-                 materials: list[str], pitches: list[str],
+    def __init__(self, length: float, gauges: list,
+                 materials: list, pitches: list,
                  double=False, si=False):
         """Class constructor."""
         try:

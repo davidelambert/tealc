@@ -1,8 +1,11 @@
 .vscode/
 *__pycache__/
 .python-version
+
 ref/
 stash/
 
 *.egg-info/
 dist/
+
+.tox/
