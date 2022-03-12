@@ -9,3 +9,6 @@ stash/
 dist/
 
 .tox/
+
+*.pyc
+pip-wheel-metadata/
