@@ -31,7 +31,7 @@ msg = {
     'string': 'calculate tension for a single string',
     'set': 'calculate tensions for a set of strings',
     'gauge': 'inches, 1/1000 of an inch, or mm with --si flag',
-    'mat': 'options: ps, nps, pb, 8020, 8515, ss, fw, pn',
+    'mat': 'options: ps, nps, pb, 8020, 8515, ss, fw, pn, bnps, bss, bfw',
     'pitch': 'e.g. A1, Bb2, C#3. C4 is middle C',
     'length': 'scale length in inches, or mm with --si flag',
     'si': 'supply gauge and length units in mm; get tension in kg',
@@ -51,8 +51,8 @@ subparsers = parser.add_subparsers(dest='command')
 string_parser = subparsers.add_parser('string', help=msg['string'])
 string_parser.add_argument('gauge', type=float, help=msg['gauge'])
 string_parser.add_argument('material', metavar='material', help=msg['mat'],
-                           choices=['ps', 'nps', 'pb', '8020',
-                                    '8515', 'ss', 'fw', 'pn'])
+                           choices=['ps', 'nps', 'pb', '8020', '8515', 'ss',
+                                    'fw', 'pn', 'bnps', 'bss', 'bfw'])
 string_parser.add_argument('pitch', help=msg['pitch'])
 string_parser.add_argument('length', type=float, help=msg['length'])
 string_parser.add_argument('--si', action='store_true', help=msg['si'])

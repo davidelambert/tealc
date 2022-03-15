@@ -28,10 +28,10 @@ setup(
     python_requires='>=3.7',
     entry_points={
         'console_scripts': [
-            'tenscalc=tenscalc.cli:main'
+            'tenscalc=cli:main'
         ]
     },
     package_data={
-        'tenscalc': ['*.json', 'manual.1', 'manual.txt']
+        'tenscalc': ['*.json', 'manual.txt']
     }
 )
