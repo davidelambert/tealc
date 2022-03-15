@@ -30,6 +30,9 @@ Estimate tension for a single string.
                           ss  stainless steel roundwound
                           fw  stainless steel flatwound
                           pn  pure nickel wound
+                        bnps  bass: nickel plated steel roundwound
+                         bss  bass: stainless steel roundwound
+                         bfw  bass: stainless steel flatwound
 
         pitch       Tuned pitch of string in scientific pitch notation,
                     from A0-E5. Middle C is C4, and A440 is A4. 
@@ -93,8 +96,9 @@ When entering sets on the command line, --gauges, --materials, and --pitches
         --gauges [G ...]    List of string gauges in inches, 1/1000in, or mm
                             with the --si flag.
         
-        --materials [M ...] List of valid string material codes. Options are
-                            ps, nps, pb, 8020, 8515, ss, fw, pn.
+        --materials [M ...] List of valid string material codes. Options:
+                                ps, nps, pb, 8020, 8515, ss, fw, pn,
+                                bnps, bss, bfw.
 
         --pitches [P ...]   List of pitches in scientific pitch notation,
                             from A0-E5. Middle C is C4, and A440 is A4.
