@@ -51,8 +51,8 @@ PKG_DIR = Path(__file__).parent
 with open(PKG_DIR/'unit_weights.json', 'r') as f:
     unit_weights = json.load(f)
 
-with open(PKG_DIR/'tension_coefs.json', 'r') as f:
-    tension_coefs = json.load(f)
+with open(PKG_DIR/'tension_models.json', 'r') as f:
+    tension_models = json.load(f)
 
 with open(PKG_DIR/'frequency_chart.json', 'r') as f:
     frequency_chart = json.load(f)
@@ -149,11 +149,10 @@ class StringTension:
         Returns:
             float: Unit weight in pounds/inch.
         """
+        mat = self.material
         if str(self.gauge) not in unit_weights[self.material]:
-            if self.material == 'nps' and self.gauge > 0.054:
-                unit_weight = tension_coefs['nps_large'] * (self.gauge ** 2)
-            else:
-                unit_weight = tension_coefs[self.material] * (self.gauge ** 2)
+            unit_weight = (tension_models[mat]['const']
+                           + tension_models[mat]['coef'] * self.gauge**2)
         else:
             unit_weight = unit_weights[self.material][str(self.gauge)]
 
