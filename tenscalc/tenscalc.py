@@ -80,7 +80,6 @@ _err_msg = {
     'pitch': 'invalid pitch(es): use scientific pitch notation from A0-E5',
     'length': 'length must be a number',
     'si': 'si must be a boolean',
-    'double': 'double must be boolean',
     'arglen': 'gauges, materials, and pitches must be of equal length'
 }
 
@@ -197,22 +196,20 @@ class StringSet:
         materials (list[str]): List of valid string material codes.
         pitches (list[str]): List of pitches in scientific pitch
             notation, from A0-E5.
-        double (bool, optional): Whether to double each string,
-            for instruments like mandolin. Defaults to False.
         si (bool, optional): Supply length and gauges in mm.
             Defaults to False.
 
     Raises:
         TypeError: On non-numeric length or gauges.
         KeyError: On invalid material codes or pitches.
-        ValueError: On non-boolean double or si.
+        ValueError: On non-boolean si.
         AssertionError: On gauges, materials, and pitches lists
             of differing length.
     """
 
     def __init__(self, length: float, gauges: list,
                  materials: list, pitches: list,
-                 double=False, si=False):
+                 si=False):
         """Class constructor."""
         try:
             self.length = float(length)
@@ -238,11 +235,6 @@ class StringSet:
             raise KeyError(_err_msg['pitch'])
 
         try:
-            self.double = bool(double)
-        except Exception:
-            raise ValueError(_err_msg['double'])
-
-        try:
             self.si = bool(si)
         except Exception:
             raise ValueError(_err_msg['si'])
@@ -251,11 +243,6 @@ class StringSet:
             assert len(self.gauges) == len(self.materials) == len(self.pitches)
         except Exception:
             raise AssertionError(_err_msg['arglen'])
-
-        if self.double:
-            for arglist in [self.gauges, self.materials, self.pitches]:
-                twin = copy.deepcopy(arglist)
-                arglist = [item for tup in zip(arglist, twin) for item in tup]
 
         if self.si:
             self.length = self.length / 25.4
@@ -326,7 +313,6 @@ class SetFileParser:
     gauges = float [float ...]
     materials = str [str ...]
     pitches = str [str ...]
-    double = bool (optional)
     si = bool (optional)
     ---- end set file ----
 
@@ -340,7 +326,6 @@ class SetFileParser:
         gauges (list[float]): Parsed from input file.
         materials (list[str]): Parsed from input file.
         pitches (list[str]): Parsed from input file.
-        double (bool): Parsed from input file.
         si (bool): : Parsed from input file.
 
     Args:
@@ -349,13 +334,12 @@ class SetFileParser:
     Raises:
         TypeError: on non-numeric length or gauges.
         KeyError: on invalid material codes or pitches.
-        ValueError: on non-boolean double or si.
+        ValueError: on non-boolean si.
         AssertionError: on gauges, materials, and pitches lists
             of differing length.
     """
 
     _required_keys = ['length', 'gauges', 'materials', 'pitches']
-    _optional_keys = ['si', 'double']
 
     def __init__(self, file):
         """Class constructor."""
@@ -408,11 +392,3 @@ class SetFileParser:
                 raise ValueError(_err_msg['si'])
         else:
             self.si = False
-
-        if 'double' in p['set'].keys():
-            try:
-                self.double = p.getboolean('set', 'double')
-            except Exception:
-                raise ValueError(_err_msg['double'])
-        else:
-            self.double = False
