@@ -13,7 +13,15 @@ manufacturing tolerances all affect the actual tension of a string. Use
 estimates from `tenscalc` as a guide only.
 
 ## Requirements
-A Python 3 installation.
+The principal requirement is a working Python 3 installation or virtual
+environment.
+
+Officially, _only Linux and Windows are supported_. However,
+`tenscalc` can run on other systems can run on other platforms such as the BSDs
+and macOS, provided:
+1. the user has write permissions to the platform's (or
+environment's) Python install directory (generally Scripts/), and
+2. the install directory is on the user's `PATH`.
 
 ## Installation
 
@@ -117,7 +125,6 @@ length = LENGTH
 gauges = G [G ...]
 materials = M [M ...]
 pitches = P [str ...]
-double = true OR false (optional)
 si = true OR false (optional)
 ```
 
@@ -167,12 +174,6 @@ When entering sets on the command line, `--gauges`, `--materials`, and
   A440 is A4.
   </dd>
 
-  <dt>--double</dt>
-  <dd>
-  When preset, double each argument to --gauges, --materials, and --pitches.
-  For double-coursed instruments like mandolin.
-  </dd>
-
   <dt>--si</dt>
   <dd>
   Supply --length and --gauges arguments in millimeters. String and set total
@@ -195,16 +196,7 @@ tenscalc set --length 25.5 --gauges 11 15 18 26 36 50 \
     --materials ps ps ps nps nps nps --pitches e4 b3 g3 d3 a2 e2
 ```
 
-```
-tenscalc set --double --length 16.75 --gauges 11 15 26 40 \
-    --materials ps ps 8020 8020 --pitches e5 a4 d4 g3 \
-    --title "80/20 Bronze Mandolin Set"
-```
-
 ### tenscalc help
 Print a man page style help manual to the terminal (a formatted version of this
 **Usage** section).
 
-## Known issues
-Tension estimates for bass guitar strings are currently inaccurate due to
-developer mistakes. Corrections are being actively developed.
