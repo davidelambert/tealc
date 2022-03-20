@@ -1,6 +1,6 @@
-## tenscalc
+## tealc
 
-`tenscalc` is a command-line tension estimator for stringed instruments. Users
+`tealc` is a command-line tension estimator for stringed instruments. Users
 can calculate tensions for single strings or string sets. Estimates are
 available for most common string materials for acoustic and electric
 instruments. Tension estimates are based on published data from major US string
@@ -10,14 +10,14 @@ Tensions estimates should be regarded as just that: *estimates* only,
 approximate tensions under ideal conditions. Variations in acutal string length
 due to bridge compensation, environmental conditions, string age, and and
 manufacturing tolerances all affect the actual tension of a string. Use
-estimates from `tenscalc` as a guide only.
+estimates from `tealc` as a guide only.
 
 ## Requirements
 The principal requirement is a working Python 3 installation or virtual
 environment.
 
 Officially, _only Linux and Windows are supported_. However,
-`tenscalc` can run on other systems can run on other platforms such as the BSDs
+`tealc` can run on other systems can run on other platforms such as the BSDs
 and macOS, provided:
 1. the user has write permissions to the platform's (or
 environment's) Python install directory (generally Scripts/), and
@@ -27,14 +27,14 @@ environment's) Python install directory (generally Scripts/), and
 
 ### From PyPI
 ```
-python3 -m pip install -U tenscalc
+python3 -m pip install -U tealc
 ```
 ### From source
 [Download a source
-archive](https://github.com/davidelambert/tenscalc/archive/refs/heads/main.zip)
+archive](https://github.com/davidelambert/tealc/archive/refs/heads/main.zip)
 and unzip it or clone the GitHub repository with:
 ```
-git clone https://github.com/davidelambert/tenscalc.git
+git clone https://github.com/davidelambert/tealc.git
 ```
 
 In a terminal, navigate to the source code directory and run:
@@ -46,10 +46,10 @@ Note that source code installations may not be official releases and may be
 more unstable than PyPI releases.
 
 ## Usage
-tenscalc contains three primary subcommands: `tenscalc string`, `tenscalc set`,
-and `tenscalc help`.
+tealc contains three primary subcommands: `tealc string`, `tealc set`,
+and `tealc help`.
 
-### tenscalc string
+### tealc string
 Estimate tension for a single string.
 
 #### REQUIRED ARGUMENTS
@@ -107,14 +107,14 @@ Estimate tension for a single string.
 
 #### EXAMPLES
 ```
-tenscalc string .011 ps E4 25.5
+tealc string .011 ps E4 25.5
 ```
 
 ```
-tenscalc string --si 1.37 pb E2 632.5
+tealc string --si 1.37 pb E2 632.5
 ```
 
-### tenscalc set
+### tealc set
 Estimate individual and total tensions for a string set. String sets may either
 be entered on the command line or read from a "set file".
 
@@ -188,15 +188,15 @@ When entering sets on the command line, `--gauges`, `--materials`, and
 
 #### EXAMPLES
 ```
-tenscalc set ~/path/to/set.txt
+tealc set ~/path/to/set.txt
 ```
 
 ```
-tenscalc set --length 25.5 --gauges 11 15 18 26 36 50 \
+tealc set --length 25.5 --gauges 11 15 18 26 36 50 \
     --materials ps ps ps nps nps nps --pitches e4 b3 g3 d3 a2 e2
 ```
 
-### tenscalc help
+### tealc help
 Print a man page style help manual to the terminal (a formatted version of this
 **Usage** section).
 
