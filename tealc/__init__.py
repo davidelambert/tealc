@@ -22,8 +22,16 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-"""Interface for calling cli with ``python -m ...``."""
+"""A stringed instrument tension calculator.
 
-from tenscalc.cli import main
+Modules:
+    tealc.py: All primary package objects.
+    __main__.py: Package CLI.
+"""
 
-main()
+from tealc.tealc import (StringTension,
+                         StringSet,
+                         SetFileParser,
+                         print_material_codes)
+
+__version__ = '0.1.2'

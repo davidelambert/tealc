@@ -7,31 +7,39 @@ here = Path(__file__).parent.resolve()
 long_description = (here/'README.md').read_text(encoding='utf-8')
 
 setup(
-    name='tenscalc',
+    name='tealc',
     version='0.1.2',
     author='David E. Lambert',
     author_email='david@davidelambert.com',
     description='Tension estimator for stringed instruments.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    license='GPLv3',
-    url='https://github.com/davidelambert/tenscalc',
+    license='MIT',
+    url='https://github.com/davidelambert/tealc',
     project_urls={
-        'Bug Reporting': 'https://github.com/davidelambert/tenscalc/issues',
+        'Bug Reporting': 'https://github.com/davidelambert/tealc/issues',
     },
     classifiers=[
+        'License :: OSI Approved :: MIT License',
         'Development Status :: 4 - Beta',
+        'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Operating System :: POSIX :: Linux',
+        'Operating System :: Microsoft :: Windows :: Windows 10',
+        'Topic :: Utilities',
     ],
     packages=find_packages(),
     python_requires='>=3.7',
     entry_points={
         'console_scripts': [
-            'tenscalc=cli:main'
+            'tealc=tealc.cli:main'
         ]
     },
     package_data={
-        'tenscalc': ['*.json', 'manual.txt']
+        'tealc': ['*.json', 'manual.txt']
     }
 )

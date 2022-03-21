@@ -22,7 +22,7 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-"""Primary objects for tenscalc package.
+"""Primary objects for tealc package.
 
 Classes:
     StringTension
@@ -49,7 +49,7 @@ Attributes:
     material_codes(dict): Short codes for string construction materials
         and corresponding descriptions, e.g. 'ps': 'plain steel'.
     manual (str): A plain text manual for the command-line interface
-        to tenscalc available from __main__.py.
+        to tealc available from __main__.py.
 """
 
 from pathlib import Path
@@ -76,7 +76,7 @@ with open(PKG_DIR/'manual.txt', 'r') as f:
 
 _err_msg = {
     'gauge': 'gauge(s) must be numbers',
-    'mat': 'invalid material code(s): see tenscalc.print_material_codes()',
+    'mat': 'invalid material code(s): see tealc.print_material_codes()',
     'pitch': 'invalid pitch(es): use scientific pitch notation from A0-E5',
     'length': 'length must be a number',
     'si': 'si must be a boolean',

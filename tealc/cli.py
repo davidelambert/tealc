@@ -22,19 +22,19 @@
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-"""Command line interface for tenscalc.
+"""Command line interface for tealc.
 
-Code in this module is run when tenscalc is tun from the command line.
+Code in this module is run when tealc is tun from the command line.
     This package contains no public objects. Documentation for the CLI
-    is contained externally in tenscalc.manual, which is accessible
-    via the command line with ``tenscalc help``.
+    is contained externally in tealc.manual, which is accessible
+    via the command line with ``tealc help``.
 """
 
 from pathlib import Path
 import pydoc
 import argparse
 
-from tenscalc import StringTension, StringSet, SetFileParser
+from tealc import StringTension, StringSet, SetFileParser
 
 PKG_DIR = Path(__file__).parent
 
@@ -47,15 +47,15 @@ msg = {
     'length': 'scale length in inches, or mm with --si flag',
     'si': 'supply gauge and length units in mm; get tension in kg',
     'title': 'optional title for output chart',
-    'file': 'see tenscalc -h for format'
+    'file': 'see tealc -h for format'
 }
 
-set_usage = """tenscalc set [-h] [--file FILE] [--title TITLE]
-    tenscalc set [-h] [--length LENGTH] [--gauges [G ...]]
+set_usage = """tealc set [-h] [--file FILE] [--title TITLE]
+    tealc set [-h] [--length LENGTH] [--gauges [G ...]]
                         [--materials [M ...]] [--pitches [P ...]]
                         [--si] [--title TITLE]"""
 
-parser = argparse.ArgumentParser(prog='tenscalc')
+parser = argparse.ArgumentParser(prog='tealc')
 subparsers = parser.add_subparsers(dest='command')
 
 string_parser = subparsers.add_parser('string', help=msg['string'])
@@ -88,7 +88,7 @@ def print_manual():
 
 
 def main(args: list = None):
-    """Command line interface for tenscalc.
+    """Command line interface for tealc.
 
     Args:
         args (list[str], optional): Argument list. The default of

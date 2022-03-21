@@ -27,7 +27,7 @@ from pathlib import Path
 
 import pytest
 
-from tenscalc import StringSet, SetFileParser
+from tealc import StringSet, SetFileParser
 
 string_sets = {'gbul': 76.0, 'gb85': 79.0, 'gbxl': 85.1, 'gb95': 92.2,
                'gbcl': 95.3, 'gblxl': 91.7, 'gbl': 104.7, 'gb105': 109.9,

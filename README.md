@@ -1,10 +1,10 @@
 ## tealc
 
-`tealc` is a command-line tension estimator for stringed instruments. Users
-can calculate tensions for single strings or string sets. Estimates are
-available for most common string materials for acoustic and electric
-instruments. Tension estimates are based on published data from major US string
-manufacturers.
+`tealc` is a command-line **T**ension **E**stimate c**ALC**ulator for stringed
+instruments. Users can calculate tensions for single strings or string sets.
+Estimates are available for most common string materials for acoustic and
+electric instruments. Tension estimates are based on published data from major
+US string manufacturers.
 
 Tensions estimates should be regarded as just that: *estimates* only,
 approximate tensions under ideal conditions. Variations in acutal string length

@@ -27,7 +27,7 @@ import math
 import pytest
 import tomli
 
-from tenscalc import StringTension
+from tealc import StringTension
 
 with open('./tests/data/string_data.toml', 'rb') as f:
     string_data = tomli.load(f)

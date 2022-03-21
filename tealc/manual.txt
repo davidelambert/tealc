@@ -1,18 +1,18 @@
 NAME
-    tenscalc - tension estimator for stringed instruments
+    tealc - tension estimator for stringed instruments
 
 SYNOPSIS
-    tenscalc string [--si] gauge material pitch length
+    tealc string [--si] gauge material pitch length
 
-    tenscalc set [-h] [--file FILE] [--title TITLE]
+    tealc set [-h] [--file FILE] [--title TITLE]
 
-    tenscalc set [-h] [--length LENGTH] [--gauges [G ...]]
+    tealc set [-h] [--length LENGTH] [--gauges [G ...]]
                       [--materials [M ...]] [--pitches [P ...]]
                       [--si] [--title TITLE]
 
-    tenscalc help
+    tealc help
 
-tenscalc string
+tealc string
 ===============
 Estimate tension for a single string.
 
@@ -52,10 +52,10 @@ Estimate tension for a single string.
             Supply <gauge> and <length> arguments in millimenters. Tension is returned in kilograms. (Yes, pedants, Newtons are the proper SI units for forces.)
 
     EXAMPLES:
-        tenscalc string .011 ps E4 25.5
-        tenscalc string --si 1.37 pb E2 632.5
+        tealc string .011 ps E4 25.5
+        tealc string --si 1.37 pb E2 632.5
 
-tenscalc set
+tealc set
 ============
 Estimate individual and total tensions for a string set. String sets may either be entered on the command line or read from a "set file".
 
@@ -105,11 +105,11 @@ When entering sets on the command line, --gauges, --materials, and --pitches mus
             Optional title for output chart.
 
         EXAMPLES:
-            tenscalc set ~/path/to/set.txt
+            tealc set ~/path/to/set.txt
 
-            tenscalc set --length 25.5 --gauges 11 15 18 26 36 50 --materials ps ps ps nps nps nps --pitches e4 b3 g3 d3 a2 e2
+            tealc set --length 25.5 --gauges 11 15 18 26 36 50 --materials ps ps ps nps nps nps --pitches e4 b3 g3 d3 a2 e2
 
-tenscalc help
+tealc help
 =============
 Print this manual.
 
@@ -117,7 +117,7 @@ AUTHOR
     Written by David Lambert.
 
 REPORTING BUGS
-    tenscalc on GitHub: <https://github.com/davidelambert/tenscalc/issues>
+    tealc on GitHub: <https://github.com/davidelambert/tealc/issues>
 
 COPYRIGHT
     Copyright (C)  2022  David Lambert.
