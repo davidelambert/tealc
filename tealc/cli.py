@@ -34,24 +34,13 @@ from pathlib import Path
 
 import click
 
-from tealc import StringTension, StringSet, SetFileParser
+from tealc import StringTension, StringSet, SetFileParser, print_material_codes
 
 PKG_DIR = Path(__file__).parent
 
-msg = {
-    'string': 'calculate tension for a single string',
-    'set': 'calculate tensions for a set of strings',
-    'gauge': 'inches, 1/1000 of an inch, or mm with --si flag',
-    'mat': 'options: ps, nps, pb, 8020, 8515, ss, fw, pn, bnps, bss, bfw',
-    'pitch': 'e.g. A1, Bb2, C#3. C4 is middle C',
-    'length': 'scale length in inches, or mm with --si flag',
-    'si': 'supply gauge and length units in mm; get tension in kg',
-    'title': 'optional title for output chart',
-    'file': 'see tealc -h for format'
-}
-
 
 @click.group()
+@click.version_option()
 def cli():
     """Calculate tension estimates for a single string or string set."""
     pass
@@ -62,9 +51,19 @@ def cli():
 @click.argument('material', type=str)
 @click.argument('pitch', type=str)
 @click.argument('length', type=float)
-@click.option('--si', type=bool, default=False, help=msg['si'])
+@click.option('--si', is_flag=True,
+              help="Supply gauge and length units in mm; get tension in kg.")
 def string(gauge, material, pitch, length, si):
-    """Calucate tension estimate for a single string."""
+    """Calucate tension estimate for a single string.
+
+    \b
+    GAUGE       String gauge in 1/1000 inch (10) or inches (.010).
+    MATERIAL    String material code, with options:
+                ps, nps, pb, 8020, 8515, ss, fw, pn, bnps, bss, bfw.
+                (Use "tealc materials" to print codes with descriptions.)
+    PITCH       Scientific pitch notation, A0-E5.
+    LENGTH      Scale length of instrument/string.
+    """
     tension = StringTension(gauge, material, pitch, length, si)
     if si:
         click.echo('{:.1f} kg'.format(tension.kg))
@@ -73,11 +72,20 @@ def string(gauge, material, pitch, length, si):
 
 
 @click.command()
-@click.option('-l', '--length', type=float, required=True)
+@click.option('-l', '--length', type=float, metavar='LENGTH', required=True,
+              help="Scale length of instrument/string.")
 @click.option('-s', '--string', 'strings', type=(float, str, str),
-              multiple=True)
-@click.option('--si', type=bool, default=False)
-@click.option('--title')
+              metavar='<GAUGE MATERIAL PITCH>...', multiple=True,
+              help="""\b
+              GAUGE     String gauge in 1/1000 inch (10) or inches (.010).
+              MATERIAL  String material code, with options:
+                        ps, nps, pb, 8020, 8515, ss, fw, pn, bnps, bss, bfw.
+                        (Use "tealc materials" for descriptions.)
+              PITCH     Scientific pitch notation, A0-E5.
+              """)
+@click.option('--si', is_flag=True,
+              help="Supply gauge and length units in mm; get tension in kg.")
+@click.option('--title', type=str, help="Optional title for output chart.")
 def set(length, strings, si, title):
     """Calculate tension estimates for a string set."""
     gauges = [tup[0] for tup in strings]
@@ -89,10 +97,22 @@ def set(length, strings, si, title):
 
 @click.command()
 @click.argument('setfile', type=click.Path(exists=True))
-@click.option('--si', type=bool, default=False)
-@click.option('--title')
+@click.option('--si', is_flag=True, help="Output chart units in mm/kg.")
+@click.option('--title', type=str, help="Optional title for output chart.")
 def file(setfile, si, title):
-    """Calculate string set tension estimates from a file."""
+    """Calculate string set tension estimates from a file.
+
+    \b
+    SETFILE     Path to a plain text file using the format:
+                ---- begin set file ---
+                [set]
+                length = LENGTH
+                gauges = GAUGE [GAUGE ...]
+                materials = MATERIAL [MATERIAL ...]
+                pitches = PITCH [PITCH ...]
+                si = True OR False (optional)
+                ---- end set file ----
+    """
     sf = SetFileParser(setfile)
     tension = StringSet(sf.length, sf.gauges, sf.materials, sf.pitches, sf.si)
     tension.print(title, print_si=si)
