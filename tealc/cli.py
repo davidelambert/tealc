@@ -60,7 +60,7 @@ def string(gauge, material, pitch, length, si):
     GAUGE       String gauge in 1/1000 inch (10) or inches (.010).
     MATERIAL    String material code, with options:
                 ps, nps, pb, 8020, 8515, ss, fw, pn, bnps, bss, bfw.
-                (Use "tealc materials" to print codes with descriptions.)
+                (Use "tealc materials" descriptions.)
     PITCH       Scientific pitch notation, A0-E5.
     LENGTH      Scale length of instrument/string.
     """
