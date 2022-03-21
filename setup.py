@@ -8,7 +8,7 @@ long_description = (here/'README.md').read_text(encoding='utf-8')
 
 setup(
     name='tealc',
-    version='0.2.0',
+    version='0.2.0a1',
     author='David E. Lambert',
     author_email='david@davidelambert.com',
     description='Tension estimator for stringed instruments.',
