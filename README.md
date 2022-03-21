@@ -16,11 +16,10 @@ estimates from `tealc` as a guide only.
 The principal requirement is a working Python 3 installation or virtual
 environment.
 
-Officially, _only Linux and Windows are supported_. However,
-`tealc` can run on other systems can run on other platforms such as the BSDs
-and macOS, provided:
-1. the user has write permissions to the platform's (or
-environment's) Python install directory (generally Scripts/), and
+Officially, _only Linux and Windows are supported_. However, `tealc` can run on
+other systems can run on other platforms such as the BSDs and macOS, provided:
+1. the user has write permissions to the platform's (or environment's) Python
+install directory (generally Scripts/), and
 2. the install directory is on the user's `PATH`.
 
 ## Installation
@@ -31,8 +30,8 @@ python3 -m pip install -U tealc
 ```
 ### From source
 [Download a source
-archive](https://github.com/davidelambert/tealc/archive/refs/heads/main.zip)
-and unzip it or clone the GitHub repository with:
+archive](https://github.com/davidelambert/tealc/archive/refs/heads/main.zip) and
+unzip it or clone the GitHub repository with:
 ```
 git clone https://github.com/davidelambert/tealc.git
 ```
@@ -42,12 +41,12 @@ In a terminal, navigate to the source code directory and run:
 python3 -m pip install .
 ```
 
-Note that source code installations may not be official releases and may be
-more unstable than PyPI releases.
+Note that source code installations may not be official releases and may be more
+unstable than PyPI releases.
 
 ## Usage
-tealc contains three primary subcommands: `tealc string`, `tealc set`,
-and `tealc help`.
+tealc contains three primary subcommands: `tealc string`, `tealc set`, and
+`tealc help`.
 
 ### tealc string
 Estimate tension for a single string.
@@ -56,8 +55,8 @@ Estimate tension for a single string.
 <dl>
   <dt>gauge</dt>
   <dd>
-  String gauge in inches, 1/1000in, or mm with the `--si` flag. Inch gauges may
-  optionally be in thousandths of an inch: `11` or `.011` are both valid and
+  String gauge in inches, 1/1000in, or mm with the <code>--si</code> flag. Inch gauges may
+  optionally be in thousandths of an inch: <code>11</code> or <code>.011</code> are both valid and
   produce the same output.
   </dd>
 
@@ -91,8 +90,7 @@ Estimate tension for a single string.
 
   <dt>length</dt>
   <dd>
-  Scale length of the instrument in inches, 1/1000in, or mm with the `--si`
-  flag.
+  Scale length of the instrument in inches, 1/1000in, or mm with the <code>--si</code> flag.
   </dd>
 </dl>
 
@@ -100,8 +98,8 @@ Estimate tension for a single string.
 <dl>
   <dt>--si</dt>
   <dd>
-  Supply `gauge` and `length` arguments in millimenters. Tension is returned in
-  kilograms (converted from pounds; used in place of Newtons.)
+  Supply </code>gauge</code> and </code>length</code> arguments in millimenters.
+  Tension is returned in kilograms (converted from pounds; used in place of Newtons.)
   </dd>
 </dl>
 
@@ -128,9 +126,9 @@ pitches = P [str ...]
 si = true OR false (optional)
 ```
 
-The `[set]` section header and all keys are required. Any other sections or
-keys are ignored. Lists for gauges, materials, and pitches keys must be of
-equal length. List items are space-separated. An example set file for a set of
+The `[set]` section header and all keys are required. Any other sections or keys
+are ignored. Lists for gauges, materials, and pitches keys must be of equal
+length. List items are space-separated. An example set file for a set of
 medium-gauge electric guitar strings on a Fender-scale instrument, with nickel
 plated steel wound strings, might look like:
 ```
@@ -148,24 +146,24 @@ When entering sets on the command line, `--gauges`, `--materials`, and
 <dl>
   <dt>--file FILE</dt>
   <dd>
-  A path to a valid set file. Any arguments other than `--title` are ignored if
-  `--file` is present.
+  A path to a valid set file. Any arguments other than <code>--title</code> are ignored if
+  <code>--file</code> is present.
   </dd>
 
   <dt>--length LENGTH</dt>
   <dd> 
-  Scale length of instrument in inches, 1/1000in, or mm with the `--si` flag.
+  Scale length of instrument in inches, 1/1000in, or mm with the <code>--si</code> flag.
   </dd>
 
   <dt>--gauges [G ...]</dt>
   <dd>
-  List of string gauges in inches, 1/1000in, or mm with the `--si` flag.
+  List of string gauges in inches, 1/1000in, or mm with the <code>--si</code> flag.
   </dd>
 
   <dt>--materials [M ...]</dt>
   <dd>
-  List of valid string material codes. Options: `ps`, `nps`, `pb`, `8020`,
-  `8515`, `ss`, `fw`, `pn`
+  List of valid string material codes. Options: ps, nps, pb, 8020,
+  8515, ss, fw, pn
   </dd>
 
   <dt>--pitches [P ...]</dt>
@@ -176,8 +174,8 @@ When entering sets on the command line, `--gauges`, `--materials`, and
 
   <dt>--si</dt>
   <dd>
-  Supply --length and --gauges arguments in millimeters. String and set total
-  tensions are returned in kilograms.
+  Supply <code>--length</code> and <code>--gauges</code> arguments in millimeters. 
+  String and set total tensions are returned in kilograms.
   </dd>
 
   <dt>--title TITLE</dt>
