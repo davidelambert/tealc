@@ -126,7 +126,14 @@ def help():
     click.echo_via_pager(manual)
 
 
+@click.command()
+def materials():
+    """Print a chart of string material codes and descriptions."""
+    print_material_codes(padding=4)
+
+
 cli.add_command(string)
 cli.add_command(set)
 cli.add_command(file)
 cli.add_command(help)
+cli.add_command(materials)
