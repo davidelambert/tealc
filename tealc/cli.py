@@ -137,3 +137,6 @@ cli.add_command(set)
 cli.add_command(file)
 cli.add_command(help)
 cli.add_command(materials)
+
+if __name__ == '__main__':
+    cli()
