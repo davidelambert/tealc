@@ -46,7 +46,7 @@ def cli():
     pass
 
 
-@click.command()
+@click.command()  # tealc string
 @click.argument('gauge', type=float)
 @click.argument('material', type=str)
 @click.argument('pitch', type=str)
@@ -71,7 +71,7 @@ def string(gauge, material, pitch, length, si):
         click.echo('{:.1f} lb'.format(tension.lb))
 
 
-@click.command()
+@click.command()  # tealc set
 @click.option('-l', '--length', type=float, metavar='LENGTH', required=True,
               help="Scale length of instrument/string.")
 @click.option('-s', '--string', 'strings', type=(float, str, str),
@@ -95,7 +95,7 @@ def set(length, strings, si, title):
     tension.print(title, print_si=si)
 
 
-@click.command()
+@click.command()  # tealc file
 @click.argument('setfile', type=click.Path(exists=True))
 @click.option('--si', is_flag=True, help="Output chart units in mm/kg.")
 @click.option('--title', type=str, help="Optional title for output chart.")
