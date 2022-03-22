@@ -275,7 +275,7 @@ class StringSet:
                 in mm and tension units in kg. Defaults to False.
         """
         col_width = 10
-        cols = ['Pitch', 'Gauge', 'Material', 'Tension']
+        cols = ['Gauge', 'Material', 'Pitch', 'Tension']
         table_width = col_width * len(cols)
 
         p_str = "s.pitch.rjust(col_width)"
@@ -303,7 +303,7 @@ class StringSet:
         print(''.join([col.rjust(col_width) for col in cols]))
         print('-' * table_width)
         for s in self.strings:
-            print(eval(p_str), eval(g_str), eval(m_str), eval(t_str), sep='')
+            print(eval(g_str), eval(m_str), eval(p_str), eval(t_str), sep='')
         print('-' * table_width)
         print(('Total:'.rjust(col_width) + tot_str).rjust(table_width), sep='')
         print(('=' * (col_width + len('Total:'))).rjust(table_width))
