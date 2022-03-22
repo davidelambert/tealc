@@ -1,5 +1,4 @@
 from pathlib import Path
-import math
 
 from click.testing import CliRunner
 
@@ -20,7 +19,6 @@ def test_cli_string_si():
     result = runner.invoke(cli.string, '--si .25 ps e4 648'.split())
     assert result.exit_code == 0
     assert result.output == '7.4 kg\n'
-    # TODO: math.isclose(), probably via regex
 
 
 def test_cli_set():
@@ -36,21 +34,19 @@ def test_cli_set():
     assert result.exit_code == 0
     assert 'Total:  104.1 lb\n' in result.output
 
-# TODO: debug this:
-# ========================================
-# Scale length: 25.5mm
-# ----------------------------------------
-#      Pitch     Gauge  Material   Tension
-# ----------------------------------------
-#         E4     0.250        ps    0.0 kg
-#         B3     0.330        ps    0.0 kg
-#         G3     0.430        ps    0.0 kg
-#         D3     0.660       nps    0.0 kg
-#         A2     0.910       nps    0.0 kg
-#         E2     1.170       nps    0.0 kg
-# ----------------------------------------
-#                         Total:    0.1 kg
-#                         ================
+
+def test_cli_set_si():
+    args = ('--si -l 648'.split()
+            + '-s .25 ps e4'.split()
+            + '-s .33 ps b3'.split()
+            + '-s .43 ps g3'.split()
+            + '-s .66 nps d3'.split()
+            + '-s .91 nps a2'.split()
+            + '-s 1.17 nps e2'.split())
+    runner = CliRunner()
+    result = runner.invoke(cli.set, args)
+    assert result.exit_code == 0
+    assert 'Total:   47.4 kg\n' in result.output
 
 
 def test_cli_file():
