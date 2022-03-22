@@ -212,18 +212,37 @@ class StringSet:
                  si=False):
         """Class constructor."""
         try:
-            self.length = float(length)
+            self.si = bool(si)
         except Exception:
-            raise TypeError(_err_msg['length'])
+            raise ValueError(_err_msg['si'])
 
         try:
-            self.gauges = list(map(float, gauges))
+            assert type(length) in (float, int)
+        except Exception:
+            raise TypeError(_err_msg['length'])
+        finally:
+            if self.si:
+                self.length = length / 25.4
+                self.length_mm = length
+            else:
+                self.length = length
+                self.length_mm = self.length * 25.4
+
+        try:
+            assert all(type(g) in (float, int) for g in gauges)
         except Exception:
             raise TypeError(_err_msg['gauge'])
+        finally:
+            if self.si:
+                self.gauges = [g / 25.4 for g in gauges]
+                self.gauges_mm = gauges
+            else:
+                self.gauges = gauges
+                self.gauges_mm = [g * 25.4 for g in gauges]
 
         try:
             self.materials = materials
-            assert all([m in material_codes.keys() for m in self.materials])
+            assert all(m in material_codes.keys() for m in self.materials)
         except Exception:
             raise KeyError(_err_msg['mat'])
 
@@ -235,24 +254,13 @@ class StringSet:
             raise KeyError(_err_msg['pitch'])
 
         try:
-            self.si = bool(si)
-        except Exception:
-            raise ValueError(_err_msg['si'])
-
-        try:
             assert len(self.gauges) == len(self.materials) == len(self.pitches)
         except Exception:
             raise AssertionError(_err_msg['arglen'])
 
-        if self.si:
-            self.length = self.length / 25.4
-            self.length_mm = self.length
-        else:
-            self.length_mm = self.length * 25.4
-
         n_strings = len(self.gauges)
         setlist = zip(self.gauges, self.materials, self.pitches,
-                      [self.length] * n_strings, [self.si] * n_strings)
+                      [self.length] * n_strings)
 
         self.strings = [StringTension(*s) for s in setlist]
         self.set_lb = sum(s.lb for s in self.strings)
