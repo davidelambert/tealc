@@ -62,7 +62,7 @@ def string(gauge, material, pitch, length, si):
                 ps, nps, pb, 8020, 8515, ss, fw, pn, bnps, bss, bfw.
                 (Use "tealc materials" descriptions.)
     PITCH       Scientific pitch notation, A0-E5.
-    LENGTH      Scale length of instrument/string.
+    LENGTH      Scale length of instrument/string in inches.
     """
     tension = StringTension(gauge, material, pitch, length, si)
     if si:
@@ -73,7 +73,7 @@ def string(gauge, material, pitch, length, si):
 
 @click.command()  # tealc set
 @click.option('-l', '--length', type=float, metavar='LENGTH', required=True,
-              help="Scale length of instrument/string.")
+              help="Scale length of instrument/string in inches.")
 @click.option('-s', '--string', 'strings', type=(float, str, str),
               metavar='<GAUGE MATERIAL PITCH>...', multiple=True,
               help="""\b
