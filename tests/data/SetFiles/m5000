@@ -1,5 +1,5 @@
-[set]
 length = 34
-materials = bss bss bss bss
-gauges = 44 63 84 106
-pitches = g2 d2 a1 e1
+44 bss g2
+63 bss d2
+84 bss a1
+106 bss e1
