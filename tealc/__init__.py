@@ -34,4 +34,4 @@ from tealc.tealc import (StringTension,
                          SetFileParser,
                          print_material_codes)
 
-__version__ = '0.2.0a1'
+__version__ = '0.2.0'
