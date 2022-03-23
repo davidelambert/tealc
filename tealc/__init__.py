@@ -26,7 +26,7 @@
 
 Modules:
     tealc.py: All primary package objects.
-    __main__.py: Package CLI.
+    cli.py: Package CLI.
 """
 
 from tealc.tealc import (StringTension,
@@ -34,4 +34,4 @@ from tealc.tealc import (StringTension,
                          SetFileParser,
                          print_material_codes)
 
-__version__ = '0.1.2'
+__version__ = '0.2.0'

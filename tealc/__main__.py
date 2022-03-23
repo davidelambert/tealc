@@ -24,6 +24,6 @@
 
 """Interface for calling cli with ``python -m ...``."""
 
-from tealc.cli import main
+from tealc.cli import cli
 
-main()
+cli()

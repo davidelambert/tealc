@@ -1,5 +1,7 @@
-[set]
 length = 25.5
-materials = ps ps ps nps nps nps
-gauges = 9 11 16 26 36 46
-pitches = e4 b3 g3 d3 a2 e2
+9 ps e4
+11 ps b3
+16 ps g3
+26 nps d3
+36 nps a2
+46 nps e2

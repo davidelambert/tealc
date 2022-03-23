@@ -54,8 +54,7 @@ Attributes:
 
 from pathlib import Path
 import json
-import configparser
-import copy
+import re
 
 PKG_DIR = Path(__file__).parent
 
@@ -211,19 +210,35 @@ class StringSet:
                  materials: list, pitches: list,
                  si=False):
         """Class constructor."""
-        try:
-            self.length = float(length)
-        except Exception:
-            raise TypeError(_err_msg['length'])
+        self.si = si
 
         try:
-            self.gauges = list(map(float, gauges))
+            assert type(length) in (float, int)
+        except Exception:
+            raise TypeError(_err_msg['length'])
+        finally:
+            if self.si:
+                self.length = length / 25.4
+                self.length_mm = length
+            else:
+                self.length = length
+                self.length_mm = self.length * 25.4
+
+        try:
+            assert all(type(g) in (float, int) for g in gauges)
         except Exception:
             raise TypeError(_err_msg['gauge'])
+        finally:
+            if self.si:
+                self.gauges = [g / 25.4 for g in gauges]
+                self.gauges_mm = gauges
+            else:
+                self.gauges = gauges
+                self.gauges_mm = [g * 25.4 for g in gauges]
 
         try:
             self.materials = materials
-            assert all([m in material_codes.keys() for m in self.materials])
+            assert all(m in material_codes.keys() for m in self.materials)
         except Exception:
             raise KeyError(_err_msg['mat'])
 
@@ -235,24 +250,13 @@ class StringSet:
             raise KeyError(_err_msg['pitch'])
 
         try:
-            self.si = bool(si)
-        except Exception:
-            raise ValueError(_err_msg['si'])
-
-        try:
             assert len(self.gauges) == len(self.materials) == len(self.pitches)
         except Exception:
             raise AssertionError(_err_msg['arglen'])
 
-        if self.si:
-            self.length = self.length / 25.4
-            self.length_mm = self.length
-        else:
-            self.length_mm = self.length * 25.4
-
         n_strings = len(self.gauges)
         setlist = zip(self.gauges, self.materials, self.pitches,
-                      [self.length] * n_strings, [self.si] * n_strings)
+                      [self.length] * n_strings)
 
         self.strings = [StringTension(*s) for s in setlist]
         self.set_lb = sum(s.lb for s in self.strings)
@@ -267,7 +271,7 @@ class StringSet:
                 in mm and tension units in kg. Defaults to False.
         """
         col_width = 10
-        cols = ['Pitch', 'Gauge', 'Material', 'Tension']
+        cols = ['Gauge', 'Material', 'Pitch', 'Tension']
         table_width = col_width * len(cols)
 
         p_str = "s.pitch.rjust(col_width)"
@@ -295,7 +299,7 @@ class StringSet:
         print(''.join([col.rjust(col_width) for col in cols]))
         print('-' * table_width)
         for s in self.strings:
-            print(eval(p_str), eval(g_str), eval(m_str), eval(t_str), sep='')
+            print(eval(g_str), eval(m_str), eval(p_str), eval(t_str), sep='')
         print('-' * table_width)
         print(('Total:'.rjust(col_width) + tot_str).rjust(table_width), sep='')
         print(('=' * (col_width + len('Total:'))).rjust(table_width))
@@ -303,92 +307,105 @@ class StringSet:
 
 
 class SetFileParser:
-    """Parse arguments for a StringSet object contained in a text file.
+    """Parse a formatted set file for arguments passable to StringSet().
 
-    Set files follow configparser conventions and use the format:
+    A set file has the following format, where properties are as
+    described in the Attributes section below.
+        length = LENGTH
+        GAUGE MATERIAL PITCH
+        [GAUGE MATERIAL PITCH]
+        [...]
+        [si = True or False]
 
-    ---- begin set file ---
-    [set]
-    length = float
-    gauges = float [float ...]
-    materials = str [str ...]
-    pitches = str [str ...]
-    si = bool (optional)
-    ---- end set file ----
+    An example SETFILE for a common set of light gauge ("10's")
+    electric guitar strings on a Fender-scale instrument, with nickel
+    plated steel wound strings, would look like this:
+        length = 25.5
+        10 ps e6
+        13 ps b3s
+        17 ps g3
+        26 nps d3
+        36 nps a2
+        46 nps e2
 
-    The [set] section header and all keys are required. Any other
-        sections or keys are ignored. Lists for gauges, materials, and
-        pitches keys must be of equal length. List items are
-        space-separated.
+    The "length = ..." line and at least one "GAUGE MATERIAL PITCH"
+    line are required.
+
+    "si = False" is not required, and the SetFileParser.si attribute
+    defaults to False if no "si = ..." line is included.
 
     Attributes:
-        length (float): Parsed from input file.
-        gauges (list[float]): Parsed from input file.
-        materials (list[str]): Parsed from input file.
-        pitches (list[str]): Parsed from input file.
-        si (bool): : Parsed from input file.
+        length (float): Instrument scale length in inches, 1/1000in,
+            or mm with si=True.
+        gauges (list[float]): List of string gauges in inches,
+            1/1000in, or mm with si=True.
+        materials (list[str]): List of valid string material codes.
+        pitches (list[str]): List of pitches in scientific pitch
+            notation, from A0-E5.
+        si (bool, optional): Supply length and gauges in mm.
+            Defaults to False.
+        lines (list[str]): List of lines in input file.
 
     Args:
-        file (path-like): A test file using the above format.
+        file (path-like): Path to a properly formatted set file.
 
     Raises:
-        TypeError: on non-numeric length or gauges.
-        KeyError: on invalid material codes or pitches.
-        ValueError: on non-boolean si.
-        AssertionError: on gauges, materials, and pitches lists
-            of differing length.
+        KeyError: On invalid material codes or pitches.
+        ValueError: On missing length or string properties
     """
-
-    _required_keys = ['length', 'gauges', 'materials', 'pitches']
 
     def __init__(self, file):
         """Class constructor."""
-        p = configparser.ConfigParser()
-        p.read(file)
+        self.length = None
+        self.gauges = []
+        self.materials = []
+        self.pitches = []
+        self.si = False
 
-        if not p.has_section('set'):
-            raise KeyError('file must include the heading "[set]"')
+        with open(file, 'r') as f:
+            self.lines = [ln.replace('\n', '') for ln in f.readlines()]
 
-        for k in self._required_keys:
-            if k not in p['set'].keys():
-                raise KeyError('missing required key {}'.format(k))
+        l_re = re.compile(r'length\s*=\s*(\d+\.*\d*)')
+        s_re = re.compile(r'(\d*\.\d+|\d+\.*\d*)\s*(\w+)\s*([a-gA-G][b#]?\d+)')
+        si_re = re.compile(r'si\s*=\s*(True|true|1|False|false|0)')
 
-        try:
-            self.length = float(p['set']['length'])
-        except Exception:
-            raise ValueError(_err_msg['length'])
+        for line in self.lines:
+            l_match = l_re.match(line)
+            if l_match is not None:
+                self.length = float(l_match.groups()[0])
 
-        try:
-            self.gauges = list(map(float, (p['set']['gauges']
-                                           .replace(', ', '')
-                                           .split())
-                                   ))
-        except Exception:
-            raise ValueError(_err_msg['gauge'])
+            s_match = s_re.match(line)
+            if s_match is not None:
+                gauge, material, pitch = s_match.groups()
 
-        try:
-            self.materials = p['set']['materials'].replace(', ', '').split()
-            for mat in self.materials:
-                assert mat in material_codes.keys()
-        except Exception:
-            raise ValueError(_err_msg['mat'])
+                self.gauges.append(float(gauge))
 
-        try:
-            self.pitches = p['set']['pitches'].split()
-            for pitch in self.pitches:
-                assert pitch[0].upper() + pitch[1:] in frequency_chart.keys()
-        except Exception:
-            raise ValueError(_err_msg['pitch'])
+                try:
+                    assert material in material_codes.keys()
+                except Exception:
+                    raise KeyError(_err_msg['mat'])
+                finally:
+                    self.materials.append(material)
 
-        try:
-            assert len(self.gauges) == len(self.materials) == len(self.pitches)
-        except Exception:
-            raise AssertionError(_err_msg['arglen'])
+                pitch = pitch[0].upper() + pitch[1:]
+                try:
+                    assert pitch in frequency_chart.keys()
+                except Exception:
+                    raise KeyError(_err_msg['pitch'])
+                finally:
+                    self.pitches.append(pitch)
 
-        if 'si' in p['set'].keys():
-            try:
-                self.si = p.getboolean('set', 'si')
-            except Exception:
-                raise ValueError(_err_msg['si'])
-        else:
-            self.si = False
+            si_match = si_re.match(line)
+            if si_match is not None:
+                if si_match.groups()[0] in ('True', 'true', '1'):
+                    self.si = True  # already False, so no "else:"
+
+        if self.length is None:
+            msg = 'File must include "length = (number)"'
+            raise ValueError(msg)
+
+        if (len(self.gauges) == 0
+                or len(self.materials) == 0
+                or len(self.pitches) == 0):
+            msg = 'File must include at least one GAUGE MATERIAL PITCH line'
+            raise ValueError(msg)

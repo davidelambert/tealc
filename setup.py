@@ -8,10 +8,10 @@ long_description = (here/'README.md').read_text(encoding='utf-8')
 
 setup(
     name='tealc',
-    version='0.1.2',
+    version='0.2.0',
     author='David E. Lambert',
     author_email='david@davidelambert.com',
-    description='Tension estimator for stringed instruments.',
+    description='Tension Estimate cALCulator for stringed instruments.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT',
@@ -34,9 +34,12 @@ setup(
     ],
     packages=find_packages(),
     python_requires='>=3.7',
+    install_requires=[
+        'Click',
+    ],
     entry_points={
         'console_scripts': [
-            'tealc=tealc.cli:main'
+            'tealc=tealc.cli:cli'
         ]
     },
     package_data={
