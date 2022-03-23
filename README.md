@@ -23,44 +23,31 @@ install directory (generally Scripts/), and
 2. the install directory is on the user's `PATH`.
 
 ## Installation
-
-### From PyPI
 ```
-python3 -m pip install -U tealc
+python -m pip install -U tealc
 ```
-### From source
-[Download a source
-archive](https://github.com/davidelambert/tealc/archive/refs/heads/main.zip) and
-unzip it or clone the GitHub repository with:
-```
-git clone https://github.com/davidelambert/tealc.git
-```
-
-In a terminal, navigate to the source code directory and run:
-```
-python3 -m pip install .
-```
-
-Note that source code installations may not be official releases and may be more
-unstable than PyPI releases.
 
 ## Usage
-tealc contains three primary subcommands: `tealc string`, `tealc set`, and
-`tealc help`.
+`tealc` contains these subcommands:
+- `tealc string`: Calucate tension estimate for a single string.
+- `tealc set`: Calculate tension estimates for a string set.
+- `tealc file`: Calculate string set tension estimates from a file.
+- `tealc materials`: Print a chart of string material codes and descriptions.
+- `tealc help`: Open the tealc manual.
 
 ### tealc string
-Estimate tension for a single string.
+Usage: `tealc string [OPTIONS] GAUGE MATERIAL PITCH LENGTH`
 
-#### REQUIRED ARGUMENTS
+#### REQUIRED
 <dl>
-  <dt>gauge</dt>
+  <dt>GAUGE</dt>
   <dd>
   String gauge in inches, 1/1000in, or mm with the <code>--si</code> flag. Inch gauges may
   optionally be in thousandths of an inch: <code>11</code> or <code>.011</code> are both valid and
   produce the same output.
   </dd>
 
-  <dt>material</dt>
+  <dt>MATERIAL</dt>
   <dd>
   Short code for string construction material. Options:
     
@@ -76,11 +63,10 @@ Estimate tension for a single string.
   | pn | pure nickel wound |
   </dd>
 
-  <dt>pitch</dt>
+  <dt>PITCH</dt>
   <dd>
-  Tuned pitch of string in scientific pitch notation, from A0-E5. Middle C is
-  C4, and A440 is A4.
-  
+  Tuned pitch of string in scientific pitch notation, from A0-E5.  Middle C is C4, and A440 is A4. Octaves change at C: A2, B2 is followed by C3, D3, ..., A3, B3, C4, ...
+
   Examples of open-string pitches in standard tunings:
   - Guitar: E2, A2, D3, G3, B3, E4
   - Bass: (B0), E1, A1, D2, G2
@@ -88,13 +74,13 @@ Estimate tension for a single string.
   - Banjo: G4, D3, G3, B3, D4
   </dd>
 
-  <dt>length</dt>
+  <dt>LENGTH</dt>
   <dd>
   Scale length of the instrument in inches, 1/1000in, or mm with the <code>--si</code> flag.
   </dd>
 </dl>
 
-#### OPTIONAL ARGUMENTS
+#### OPTIONAL
 <dl>
   <dt>--si</dt>
   <dd>
@@ -113,86 +99,93 @@ tealc string --si 1.37 pb E2 632.5
 ```
 
 ### tealc set
-Estimate individual and total tensions for a string set. String sets may either
-be entered on the command line or read from a "set file".
+usage: `tealc set [OPTIONS]
 
-Set files use the following format:
-```
-[set]
-length = LENGTH
-gauges = G [G ...]
-materials = M [M ...]
-pitches = P [str ...]
-si = true OR false (optional)
-```
-
-The `[set]` section header and all keys are required. Any other sections or keys
-are ignored. Lists for gauges, materials, and pitches keys must be of equal
-length. List items are space-separated. An example set file for a set of
-medium-gauge electric guitar strings on a Fender-scale instrument, with nickel
-plated steel wound strings, might look like:
-```
-[set]
-length = 25.5
-gauges = 11 15 18 26 36 50
-materials = ps ps ps nps nps nps
-pitches = e4 b3 d3 g3 a2 e2
-```
-
-When entering sets on the command line, `--gauges`, `--materials`, and
-`--pitches` must have the same number of arguments.
-
-#### ARGUMENTS
+#### REQUIRED
 <dl>
-  <dt>--file FILE</dt>
+  <dt>-l, --length</dt>
   <dd>
-  A path to a valid set file. Any arguments other than <code>--title</code> are ignored if
-  <code>--file</code> is present.
+  Scale length, just as in `tealc string`
   </dd>
 
-  <dt>--length LENGTH</dt>
+  <dt>-s, --string &lt;GAUGE MATERIAL PITCH&gt;...</dt>
   <dd> 
-  Scale length of instrument in inches, 1/1000in, or mm with the <code>--si</code> flag.
+  Repeated option, per string for the entire set. Requiremnts for the sub-arguments in `&lt;GAUGE MATERIAL PITCH&gt;` are just as in "tealc string".
   </dd>
+</dl>
 
-  <dt>--gauges [G ...]</dt>
-  <dd>
-  List of string gauges in inches, 1/1000in, or mm with the <code>--si</code> flag.
-  </dd>
-
-  <dt>--materials [M ...]</dt>
-  <dd>
-  List of valid string material codes. Options: ps, nps, pb, 8020,
-  8515, ss, fw, pn
-  </dd>
-
-  <dt>--pitches [P ...]</dt>
-  <dd>
-  List of pitches in scientific pitch notation, from A0-E5. Middle C is C4, and
-  A440 is A4.
-  </dd>
-
+#### OPTIONAL
+<dl>
   <dt>--si</dt>
   <dd>
-  Supply <code>--length</code> and <code>--gauges</code> arguments in millimeters. 
-  String and set total tensions are returned in kilograms.
+  Supply set-wide --length and per-string GAUGE arguments in millimenters inctead of inches. Tension is returned in kilograms.
   </dd>
 
-  <dt>--title TITLE</dt>
+  <dt>--title TEXT</dt>
   <dd>
-  Optional title for output chart.
+  An optional title for the output chart.
   </dd>
 </dl>
 
 #### EXAMPLES
 ```
-tealc set ~/path/to/set.txt
+tealc set -l 25.5 -s 10 ps e4 13 -s 13 ps b3 -s 17 ps g3 -s 26 nps d3 \
+    -s 36 nps a3 46 -s 46 nps e2
 ```
 
 ```
-tealc set --length 25.5 --gauges 11 15 18 26 36 50 \
-    --materials ps ps ps nps nps nps --pitches e4 b3 g3 d3 a2 e2
+tealc set -l 34 -s 45 bfw g2 -s 60 bfw d2 -s 80 bfw a1 -s 105 bfw e1 \
+    --title "Bass Flatwound Mediums"
 ```
+
+### tealc file
+usage: `tealc file SETFILE`
+
+#### REQUIRED:
+<dl>
+  <dt>SETFILE</dt>
+  <dd>
+  A file formatted using the format:
+  ```
+  length = LENGTH
+  GAUGE MATERIAL PITCH
+  [GAUGE MATERIAL PITCH]
+  [...]
+  [si = True or False]
+  ```  
+  
+  An example SETFILE for a common set of light gauge ("10's") electric guitar strings on a Fender-scale instrument, with nickel plated steel wound strings, would look like this:
+  ```
+  length = 25.5
+  10 ps e4
+  13 ps b3
+  17 ps g3
+  26 nps d3
+  36 nps a2
+  46 nps e2
+  ```
+
+  The "length = ..." line and at least one "GAUGE MATERIAL PITCH" line are required.
+  
+  "si = False" is not required, and the SetFileParser.si attribute defaults to False if no "si = ..." line is included.
+  </dd>
+</dl>
+
+#### OPTIONAL:
+<dl>
+  <dt>--si</dt>
+  <dd>Show output chart units in mm/kg.</dd>
+  <dt>--title TEXT</dt>
+  <dd>An optional title for the output chart.</dd>
+</dl>
+
+#### EXAMPLE:
+```
+tealc file ~/path/to/setfile
+```
+
+### tealc materials
+Print a chart of material codes and their descriptions.
 
 ### tealc help
 Print a man page style help manual to the terminal (a formatted version of this
