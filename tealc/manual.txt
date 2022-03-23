@@ -1,5 +1,5 @@
 NAME
-    tealc - tension estimator for stringed instruments
+    tealc - Tension Estimate cALCulator for stringed instruments.
 
 SYNOPSIS
     tealc string [--help] [--si] GAUGE MATERIAL PITCH LENGTH
@@ -84,6 +84,13 @@ Calculate tension estimates for a string set.
         --title TEXT
             An optional title for the output chart.
 
+    EXAMPLES:
+        tealc set -l 25.5 -s 10 ps e4 13 -s 13 ps b3 -s 17 ps g3 -s 26 nps d3 \
+            -s 36 nps a3 46 -s 46 nps e2
+
+        tealc set -l 34 -s 45 bfw g2 -s 60 bfw d2 -s 80 bfw a1 -s 105 bfw e1 \
+            --title "Bass Flatwound Mediums"
+
 tealc file
 ===============
 Calculate string set tension estimates from a file.
@@ -122,6 +129,9 @@ Calculate string set tension estimates from a file.
         
         --title TEXT
             An optional title for the output chart.
+
+    EXAMPLE:
+        tealc file ~/path/to/setfile
 
 tealc materials
 ===============
