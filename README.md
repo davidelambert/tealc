@@ -99,7 +99,7 @@ tealc string --si 1.37 pb E2 632.5
 ```
 
 ### tealc set
-usage: `tealc set [OPTIONS]
+usage: `tealc set [OPTIONS]`
 
 #### REQUIRED
 <dl>
@@ -110,7 +110,7 @@ usage: `tealc set [OPTIONS]
 
   <dt>-s, --string &lt;GAUGE MATERIAL PITCH&gt;...</dt>
   <dd> 
-  Repeated option, per string for the entire set. Requiremnts for the sub-arguments in `&lt;GAUGE MATERIAL PITCH&gt;` are just as in "tealc string".
+  Repeated option, per string for the entire set. Requiremnts for the sub-arguments in <code>&lt;GAUGE MATERIAL PITCH&gt;</code> are just as in "tealc string".
   </dd>
 </dl>
 
@@ -118,7 +118,7 @@ usage: `tealc set [OPTIONS]
 <dl>
   <dt>--si</dt>
   <dd>
-  Supply set-wide --length and per-string GAUGE arguments in millimenters inctead of inches. Tension is returned in kilograms.
+  Supply set-wide <code>--length</code> and per-string <code>GAUGE</code> arguments in millimenters inctead of inches. Tension is returned in kilograms.
   </dd>
 
   <dt>--title TEXT</dt>
@@ -146,6 +146,7 @@ usage: `tealc file SETFILE`
   <dt>SETFILE</dt>
   <dd>
   A file formatted using the format:
+    
   ```
   length = LENGTH
   GAUGE MATERIAL PITCH
@@ -165,9 +166,9 @@ usage: `tealc file SETFILE`
   46 nps e2
   ```
 
-  The "length = ..." line and at least one "GAUGE MATERIAL PITCH" line are required.
+  The <code>length = ...</code> line and at least one <code>GAUGE MATERIAL PITCH</code> line are required.
   
-  "si = False" is not required, and the SetFileParser.si attribute defaults to False if no "si = ..." line is included.
+  <code>si = False</code> is not required, and the <code>SetFileParser.si</code> attribute defaults to False if no <code>si = ...</code> line is included.
   </dd>
 </dl>
 
