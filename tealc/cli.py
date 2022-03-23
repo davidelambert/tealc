@@ -104,14 +104,11 @@ def file(setfile, si, title):
 
     \b
     SETFILE     Path to a plain text file using the format:
-                ---- begin set file ---
-                [set]
-                length = LENGTH
-                gauges = GAUGE [GAUGE ...]
-                materials = MATERIAL [MATERIAL ...]
-                pitches = PITCH [PITCH ...]
-                si = True OR False (optional)
-                ---- end set file ----
+                    length = LENGTH
+                    GAUGE MATERIAL PITCH
+                    [GAUGE MATERIAL PITCH]
+                    [...]
+                    [si = True or False]
     """
     sf = SetFileParser(setfile)
     tension = StringSet(sf.length, sf.gauges, sf.materials, sf.pitches, sf.si)

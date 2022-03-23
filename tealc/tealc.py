@@ -317,12 +317,12 @@ class SetFileParser:
         [...]
         [si = True or False]
 
-    Thus, a common set of "10 gauge" electric guitar strings, in
-    standard guitar tuning, on a Fender-scaled instrument could be
-    described in a set file like this:
+    An example SETFILE for a common set of light gauge ("10's")
+    electric guitar strings on a Fender-scale instrument, with nickel
+    plated steel wound strings, would look like this:
         length = 25.5
         10 ps e6
-        13 ps b3
+        13 ps b3s
         17 ps g3
         26 nps d3
         36 nps a2
